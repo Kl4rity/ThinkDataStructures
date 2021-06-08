@@ -1,10 +1,6 @@
 package com.allendowney.thinkdast;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
 /**
  * @author downey
@@ -44,8 +40,18 @@ public class MyArrayList<T> implements List<T> {
 
 	@Override
 	public boolean add(T element) {
-		// TODO: FILL THIS IN!
-		return false;
+		if (array.length == size){
+			T[] newArray = (T[]) new Object[array.length * 2];
+			for (int i = 0; i < array.length; i++) {
+				newArray[i] = array[i];
+			}
+			array = newArray;
+//		optionally using Arrays static method instead:
+//		array = Arrays.copyOf(array, array.length * 2);
+		}
+		array[size] = element;
+		size++;
+		return true;
 	}
 
 	@Override
@@ -110,7 +116,15 @@ public class MyArrayList<T> implements List<T> {
 
 	@Override
 	public int indexOf(Object target) {
-		// TODO: FILL THIS IN!
+		for (int i = 0; i < size; i++) {
+			if (target == null && array[i] == null){
+				return i;
+			} else {
+				if (array[i].equals(target)){
+					return i;
+				}
+			}
+		}
 		return -1;
 	}
 
@@ -181,8 +195,16 @@ public class MyArrayList<T> implements List<T> {
 
 	@Override
 	public T remove(int index) {
-		// TODO: FILL THIS IN!
-		return null;
+		T removedValue = get(index);
+		for (int i = index; i < size; i++) {
+			if(i+1 > array.length){
+				array[i] = null;
+			} else {
+				array[i] = array[i+1];
+			}
+		}
+		size--;
+		return removedValue;
 	}
 
 	@Override
@@ -201,8 +223,9 @@ public class MyArrayList<T> implements List<T> {
 
 	@Override
 	public T set(int index, T element) {
-		// TODO: FILL THIS IN!
-		return null;
+		T replacedValue = get(index);
+		array[index] = element;
+		return replacedValue;
 	}
 
 	@Override
